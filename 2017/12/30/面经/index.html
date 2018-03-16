@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="面经,面试题," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="摘要:记录一下几次面试的题目，以便查漏补缺。">
+<meta name="keywords" content="面经,面试题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面经">
+<meta property="og:url" content="http://saiJPlus.github.io/2017/12/30/面经/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="摘要:记录一下几次面试的题目，以便查漏补缺。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-14T04:03:14.590Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面经">
+<meta name="twitter:description" content="摘要:记录一下几次面试的题目，以便查漏补缺。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://saiJPlus.github.io/2017/12/30/面经/"/>
+
+
+
+
+
+  <title>面经 | </title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title"></span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://saiJPlus.github.io/2017/12/30/面经/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">面经</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-30T11:16:16+08:00">
+                2017-12-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试经验/" itemprop="url" rel="index">
+                    <span itemprop="name">面试经验</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>摘要:<br>记录一下几次面试的题目，以便查漏补缺。<br><a id="more"></a><br>正文:<br>记录一下几次面试的题目，以便查漏补缺，其中HR面主要是聊一些薪资方面的或者如何学习，为什么要来这里之类的，限于篇幅，<br>这里省略这一部分。</p>
+<p><table><tr><td bgcolor="#FF4500">1.涂鸦移动:</td></tr></table><br>一面:<br>1.1聊一下项目，做什么的?用了哪些设计模式?<br>1.2算法题1，层序遍历二叉树<br>1.3算法题2，一堆数组中只有一个重复的数字，找出这个重复的数字?<br>二面:<br>1.1自我介绍<br>1.2抽象类和接口的区别<br>1.3FPS游戏中游戏子弹卡顿，如何解决?-引出GC，聊一下GC吧<br>1.4值类型和引用类型有什么区别?<br>1.5设计模式了解不?聊一下除了单例之外的设计模式。<br>1.6说一下适配器模式<br>1.7说一下享元模式<br>1.8App动态生成按钮，开发一个动态控制的方法<br>1.9状态机知道么?<br>1.10说一下DijStra算法<br>1.11还有什么要问的?</p>
+<p><table><tr><td bgcolor="#FF4500">2.CVTE:</td></tr></table><br>一面:<br>2.1手写单例<br>2.2双边检查在项目中的什么情况下遇到?<br>2.3说一下实际开发中一个类被两次创建的场景<br>2.4反射知道么?反射创建的对象和直接new的对象有什么区别?<br>2.5打开了leetcode，让做两道算法题<br>二面:<br>2.1介绍以下项目中用到的技术？<br>2.2用户权限管理是如何做的？<br>2.3mysql有哪两种引擎？<br>2.4mysql索引的好处 和坏处？<br>2.5向链表中插入一个数据的时间复杂度？<br>2.6arraylist和linkedlist区别？<br>2.7hashmap是如何处理哈希碰撞的？<br>2.8说一下开放地址法的原理？<br>2.9用到过哪些框架？用的什么orm框架?<br>2.10说一下springboot如何进行初始化过程<br>2.11说一下spring中的aop和ioc？<br>2.12介绍以下aop用了什么设计模式？<br>2.13aop用在什么场景下？<br>2.14什么是内存泄露?java中存在内存泄露吗?写一个可能出现内存溢出的场景。</p>
+<p><table><tr><td bgcolor="#FF4500">3.网易游戏</td></tr></table><br>一面:<br>3.1主要是针对项目问的，大体就记得这么多了。<br>3.2为什么要使用NIO?<br>3.3相比传统的IO，NIO是如何解决非阻塞的问题的?<br>3.4了解汇编?说一下PC寄存器什么作用？了解栈溢出吗?说一下java中的内存泄露，栈和堆中主要是放什么的?<br>3.5项目中有没有使用索引?索引有什么作用?什么情况下不适合建立索引?<br>感想:学校很一般，感觉面试官也没有什么兴趣问我，一般都会有一个30min的编程练习，可能当天我是最后一个面试的，并没有经历这个环节,刚进去面试的时候，旁边是腾讯的团队在面试，本来想打算去霸面试试的，但面完之后，时间已经很晚了，还是略有遗憾，第二天随便找了一个网吧，分别做了乐信、唯品会以及蘑菇街的笔试(极限操作..)，有种已经死掉的感觉…</p>
+<p><table><tr><td bgcolor="#FF4500">4.乐信</td></tr></table><br>一面:<br>4.1NIO:如何使用，用来解决什么问题？<br>4.2前面是实现了非阻塞，但是后面没有做非阻塞的操作？<br>4.3线程池怎么用的?步骤说一下，线程池执行execute()方法之后底层是做了哪些操作?<br>4.4mysql中如果没有这个数据，那么自动更新一下，知道如何实现吗?<br>4.5Spring框架熟悉吗?<br>4.6说了一下IOC和AOP<br>4.7动态代理相比静态代理有什么好处?<br>4.8面向对象的五大基本原则说一下，开放封闭原则是什么?可以描述一下吗?<br>4.9mybatis框架的设计思想说一下?还了解哪些开源的框架？<br>4.10restful的api有什么好处?为什么要这样设计?有什么心得吗?<br>4.11设计模式还了解哪些?<br>4.12常用的数据库优化有哪些?<br>4.13Linux在指定的文件中查找指定的内容，写一下这个命令<br>4.14mysql做读写分离的时候，如何保持数据一致?<br>二面:<br>4.1自我介绍<br>4.2说说项目中用到的比较牛逼的技术?<br>4.3还有什么想问的?</p>
+<p><table><tr><td bgcolor="#FF4500">5.蘑菇街</td></tr></table><br>一面:<br>5.1mysql中频繁插入数据是锁表还是锁结构?<br>5.2如何在linux系统下查看jvm的运行情况?<br>5.3Http2.0了解吗?<br>5.4gstack命令<br>5.5如何查看对应的进程<br>5.6编程题<br>5.7java8了解吗？</p>
+<p><table><tr><td bgcolor="#FF4500">6.同花顺:</td></tr></table><br>一面:<br>6.1后台权限系统的设计，用了哪些开源框架<br>6.2==和equals区别<br>6.3项目里边有哪些收获?<br>6.4单例模式说一下<br>6.5什么是死锁?什么情况下会发生死锁?<br>6.6volatile解释一下<br>6.7还知道哪些设计模式?用过哪些设计模式?<br>6.8拦截器和过滤器有什么区别?<br>6.9hibernate二级缓存是如何实现的?<br>6.10还有什么要问的吗?</p>
+<p><table><tr><td bgcolor="#FF4500">7.东方财富</td></tr></table><br>7.1rabbitMq有什么好处?有没有做消息失败的处理?<br>7.2解耦是什么作用?<br>7.3restful接口有什么好处?<br>7.4说一下JVM？<br>7.5Mysql的聚集索引和非聚集索引的区别?<br>7.6get和post的区别？<br>7.7这边技术主要是.net，你愿不愿意转?<br>PS:一面之后就HR了，感觉有点奇怪</p>
+<p><table><tr><td bgcolor="#FF4500">8.ofo</td></tr></table><br>一面:<br>8.1自我介绍，<br>8.2做过的项目<br>8.3rabbitmq用来干什么的？如何被消费的？<br>8.5redis用过吗？掌握到什么程度？掉电了如何处理？<br>8.6docker？什么是docker？怎么用的？<br>8.7多线程用过吗？说一下用多线程的应用场景，说了一个场景，问这个是什么现象？什么是死锁？用哪些方法可以可以解决死锁的问题？多个线程操作同一个变量有哪些方法？?除了生产者消费者模型还有哪些模型?(读者写者问题)<br>8.8如果并发量比较大，怎么解决？<br>8.9nio干什么的？什么是epoll？如何实现io复用?<br>8.10知道管道的是用来做什么吗？<br>8.11APP中的轨迹如何绘图的？如何纠偏移的？<br>8.12用过的设计模式？适配器模式是怎么使用的？哪些应用场景？总共20多种呢，就知道这几种?嗯?<br>8.13数据库用过吗？用过哪些数据库？<br>8.14mysql主键是聚簇？mysql索引用过吗？干什么的？为什么用b+树？用它有什么好处？<br>8.15知道随机访问吗？说一下随机访问和顺序访问的区别？<br>8.16知道数据库的主从吗？如何做主从同步的？<br>8.173道算法,剑指offer上2道,还有一道算开放题吧,关于Geohash的，相关的知识已经写在了我的csdn博客上。</p>
+<p><table><tr><td bgcolor="#FF4500">9.京东</td></tr></table><br>一面:<br>9.1string底层的数据结构,stringbuffer和StringBuilder的区别<br>9.2知道哪些集合类？<br>9.3hashmap底层，put的过程,get的过程:<br>9.4arraylist,linkedlist底层数据结构？<br>9.5什么是线程安全?可以对concurrentHashMap同时读取写入吗?这个和hashtable实现的原理有什么不同?<br>9.6多线程同时访问某一段代码，不会出现不一样的结果<br>9.7lock和synchronized的区别？<br>9.8mysql聚集索引(a,b,c,d),select a and b,select b and a,select a or b会不会索引失效？如果是单值索引的情况呢？<br>9.9交换位置使用复合索引没有影响<br>9.10如果是使用单值索引的话可能会用到a也可能会用到b?<br>9.11知道表锁，行锁，间隙锁吗？<br>9.12间隙锁的主要作用是为了防止出现幻读<br>9.13b+树有几层？<br>9.14说一下mysql的隔离级别，每一种隔离级别用来解决什么问题？<br>9.15Spring的AOP使用了哪种代理?<br>9.16适配器模式作用?使用场景?<br>9.18反射为什么慢?<br>9.19in和exists的区别?</p>
+<p><table><tr><td bgcolor="#FF4500">10.有赞</td></tr></table><br>一面:<br>10.1数据库的三大范式、主键使用什么类型的?数据库中的int类型对应java中的什么数据类型?<br>10.2描述一下Collections接口下面的类<br>10.3优选队列底层是什么数据结构？<br>10.4如何实现多线程?线程有哪些状态，wait()和sleep()方法有什么区别?wait()得时候线程处于哪种状态?sleep得时候线程处于哪种状态?cpu线程调度算法有几种？<br>10.5线程间通信的方式?<br>10.6b树和b+树有什么区别?二叉查找树，红黑树?<br>10.7spring的几种注解有什么区别?(@Autowired和@Resource的区别)<br>10.8spring相对于springboot有什么好处?有什么方法可以去掉springboot中的tomcat??<br>10.9描述一下CAS算法以及CAS是如何保证原子性的?CAS算法有什么坏处？<br>10.10有什么方式死锁的方法吗?简述银行家算法:<br>10.11多线程操作arraylist会有什么影响?<br>10.12如何理解多线程包中的快速失败机制?<br>二面:<br>忘记了…笔记上找不到…</p>
+<p><table><tr><td bgcolor="#FF4500">11.一点资讯</td></tr></table><br>一面:<br>11.1post()和get()方法有哪些区别?<br>11.2mysql中的事务有几个隔离级别？mysql默认的隔离级别有几种?<br>11.3两道算法<br>二面:<br>11.1接口中的变量有哪些性质?<br>11.2Stringbuffer和StringBuilder哪个个是线程安全的?(我赶脚…前者是线程安全的，但是面试官觉得我说反了–||)<br>11.3两道算法</p>
+<p><table><tr><td bgcolor="#FF4500">12.苏小研</td></tr></table><br>一面：<br>群面(人生第一次群面。。。)<br>二面:<br>主要是根据简历问<br>12.1rabbitMq用来做什么？谁来消费消息？<br>12.2springmvc中常用哪些注解？springboot新增了哪些注解？<br>12.3@RequestMapping注解的作用？有哪些参数？<br>12.4mysql中用过哪些优化的方法？什么样的字段上需要添加索引？<br>12.5git merge和rebase的区别？<br>12.6git提交的时候会把整个项目推送到代码库中吗?<br>12.7git和svn有什么区别？<br>12.8做项目的流程能讲讲吗?<br>12.9还有什么要问的？</p>
+<p><font color="#DC143C" size="5" face="黑体">写在最后:</font><br>求职这期间还有阿里的2次简历评估面试，由于只是简历评估面，意义不大，故不再赘述。还有若干公司的面试因为没有及时记录，已经找不到了，暂且就记录到这里吧。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面经-面试题/" rel="tag"># 面经,面试题</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/29/二维数组的查找/" rel="next" title="二维数组的查找">
+                <i class="fa fa-chevron-left"></i> 二维数组的查找
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/30/cookie被浏览器禁用后的解决方法/" rel="prev" title="cookie被浏览器禁用后的解决方法">
+                cookie被浏览器禁用后的解决方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Sai" />
+            
+              <p class="site-author-name" itemprop="name">Sai</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/saiJPlus" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/profile.php?id=100005185424057" target="_blank" title="FB Page">
+                      
+                        <i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sai</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; 5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
