@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="cookie,session," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="摘要:转载自:http://blog.csdn.net/github_36301064/article/details/53412600">
-<meta name="keywords" content="cookie,session">
+<meta name="description" content="请输入密码">
 <meta property="og:type" content="article">
-<meta property="og:title" content="cookie被浏览器禁用后的解决方法">
-<meta property="og:url" content="http://MemoryExplosion.github.io/2017/12/30/cookie被浏览器禁用后的解决方法/index.html">
+<meta property="og:title" content="centos7下多机集群时间同步设定">
+<meta property="og:url" content="http://MemoryExplosion.github.io/2019/07/17/centos7下多机集群时间同步设定/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="摘要:转载自:http://blog.csdn.net/github_36301064/article/details/53412600">
+<meta property="og:description" content="请输入密码">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-14T05:07:31.816Z">
+<meta property="og:updated_time" content="2019-07-17T15:45:04.296Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="cookie被浏览器禁用后的解决方法">
-<meta name="twitter:description" content="摘要:转载自:http://blog.csdn.net/github_36301064/article/details/53412600">
+<meta name="twitter:title" content="centos7下多机集群时间同步设定">
+<meta name="twitter:description" content="请输入密码">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://MemoryExplosion.github.io/2017/12/30/cookie被浏览器禁用后的解决方法/"/>
+  <link rel="canonical" href="http://MemoryExplosion.github.io/2019/07/17/centos7下多机集群时间同步设定/"/>
 
 
 
 
 
-  <title>cookie被浏览器禁用后的解决方法 | </title>
+  <title>centos7下多机集群时间同步设定 | </title>
   
 
 
@@ -253,7 +252,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://MemoryExplosion.github.io/2017/12/30/cookie被浏览器禁用后的解决方法/">
+    <link itemprop="mainEntityOfPage" href="http://MemoryExplosion.github.io/2019/07/17/centos7下多机集群时间同步设定/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="LSJ">
@@ -270,7 +269,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">cookie被浏览器禁用后的解决方法</h1>
+          <h1 class="post-title" itemprop="name headline">centos7下多机集群时间同步设定</h1>
         
 
         <div class="post-meta">
@@ -282,8 +281,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-30T15:14:31+08:00">
-                2017-12-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-17T23:36:17+08:00">
+                2019-07-17
               </time>
             
 
@@ -292,28 +291,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web开发/" itemprop="url" rel="index">
-                    <span itemprop="name">web开发</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -342,11 +319,7 @@
       
 
       
-        <p>摘要:<br>转载自:<a href="http://blog.csdn.net/github_36301064/article/details/53412600" target="_blank" rel="noopener">http://blog.csdn.net/github_36301064/article/details/53412600</a><br><a id="more"></a><br>正文:<br>我们都知道session依赖cookie，因为服务器需要在每次请求中获取sessionId，然后找到客户端的session对象，如果浏览器禁用了cookie呢？</p>
-<p>这个时候，就需要用到URL重写了，这种方法让服务器收到的每个请求中都带有sessioinId。</p>
-<p>URL重写的具体方法是：在每个页面中的每个链接和表单中都添加名为jSessionId的参数，值为当前sessionid。当用户点击链接或提交表单时也服务器可以通过获取jSessionId这个参数来得到客户端的sessionId，找到sessoin对象，来看看具体的例子：</p>
-<p>方法一：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">------------链接------------</span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">'/jsp/index.jsp;jsessionid=&lt;%=session.getId() %&gt;'</span> &gt;</span>主页<span class="tag">&lt;/<span class="name">a</span>&gt;</span>  </span><br><span class="line">------------表单------------</span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">'/jsp/index.jsp;jsessionid=&lt;%=session.getId() %&gt;'</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span>/&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure><br>方法二（使用response.encodeURL()对每个请求的URL处理，这个方法会自动追加jsessionid参数，与上面我们手动添加是一样的效果。）：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">------------链接------------</span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">'&lt;%=response.encodeURL("/jsp/index.jsp") %&gt;'</span> &gt;</span>主页<span class="tag">&lt;/<span class="name">a</span>&gt;</span>  </span><br><span class="line">------------表单------------</span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">'&lt;%=response.encodeURL("/jsp/index.jsp") %&gt;'</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span>/&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span>  </span><br></pre></td></tr></table></figure><br>使用response.encodeURL()更加“智能”，它会判断客户端浏览器是否禁用了Cookie，如果禁用了，那么这个方法在URL后面追加jsessionid，否则不会追加。<br>所以说，建议使用方法二。</p>
-
+        <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script> <div id="security"> <div class="input-container"> <input type="password" class="form-control" id="pass" placeholder=" 请输入密码 " /> <label for="pass"> 请输入密码 </label> <div class="bottom-line"></div> </div> </div> <div id="encrypt-blog" style="display:none"> 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 </div><script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
       
     </div>
     
@@ -361,12 +334,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/cookie-session/" rel="tag"># cookie,session</a>
-          
-        </div>
-      
 
       
       
@@ -376,8 +343,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/30/面经/" rel="next" title="面经">
-                <i class="fa fa-chevron-left"></i> 面经
+              <a href="/2019/07/06/MySql设计规范总结/" rel="next" title="项目开发中数据库哪些雷区不能踩?">
+                <i class="fa fa-chevron-left"></i> 项目开发中数据库哪些雷区不能踩?
               </a>
             
           </div>
@@ -385,10 +352,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/31/hexo工作原理/" rel="prev" title="hexo工作原理">
-                hexo工作原理 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
