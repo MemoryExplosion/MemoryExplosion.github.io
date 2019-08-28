@@ -398,7 +398,8 @@ height:50vh;
             <main class="main post-page">
     <article class="article-entry">
         <p>摘要:</p>
-<h2 id="本篇主要介绍mysql数据库基于GTID的主从配置，希望本篇文章能够给你带来些许收货。"><a href="#本篇主要介绍mysql数据库基于GTID的主从配置，希望本篇文章能够给你带来些许收货。" class="headerlink" title="本篇主要介绍mysql数据库基于GTID的主从配置，希望本篇文章能够给你带来些许收货。"></a>本篇主要介绍mysql数据库基于GTID的主从配置，希望本篇文章能够给你带来些许收货。</h2><a id="more"></a>
+<p>本篇主要介绍mysql数据库基于GTID的主从配置，希望本篇文章能够给你带来些许收货。</p>
+<a id="more"></a>
 <p>正文:<br><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566732187539&di=2286490797a265a17d3a99692c38d793&imgtype=0&src=http%3A%2F%2Ffile06.16sucai.com%2F2016%2F0510%2Fab69b953d94c4ea94990a97e82b6ed7d.jpg" width="500" height="300" div="" align="center"></p>
 <h3 id="1-项目环境"><a href="#1-项目环境" class="headerlink" title="1.项目环境"></a>1.项目环境</h3><p>mysql 版本号:5.7.27</p>
 <table>
@@ -415,7 +416,7 @@ height:50vh;
 </tr>
 </tbody>
 </table>
-<p>首先，我们来介绍一下GTID的概念:<br>GTID，也就是全局事务ID，其保证为每一个在主上提交的事务在复制集群中可以生成一个唯一的ID。<br>一个GITD由两部分组成的，分别是source_id 和transaction_id，GTID=source_id:transaction_id，其中source_id就是执行事务的主库的server-uuid值，server-uuid值是在mysql服务首次启动生成的，保存在数据库的数据目录中，在数据目录中有一个auto.conf文件，这个文件保存了server-uuid值（唯一的）。而事务ID则是从1开始自增的序列，表示这个事务是在主库上执行的第几个事务，Mysql会保证这个事务和GTID是一比一的关系。<br>基于GTID的复制是从Mysql5.6开始支持的一种新的复制方式，此方式与传统基于日志的方式存在很大的差异，在原来的基于日志的复制中，从服务器连接到主服务器并告诉主服务器要从哪个二进制日志的偏移量开始执行增量同步，这时我们如果指定的日志偏移量不对，这与可能造成主从数据的不一致，而基于GTID的复制会避免。<br>在基于GTID的复制中，首先从服务器会告诉主服务器已经在从服务器执行完了哪些事务的GTID值，然后主库会有把所有没有在从库上执行的事务，发送到从库上进行执行，并且使用GTID的复制可以保证同一个事务只在指定的从库上执行一次，这样可以避免由于偏移量的问题造成数据不一致。</p>
+<p>首先，我们来介绍一下GTID的概念:<br>GTID，也就是全局事务ID，其保证为每一个在主上提交的事务在复制集群中可以生成一个唯一的ID。<br>一个GTID由两部分组成的，分别是source_id 和transaction_id，GTID=source_id:transaction_id，其中source_id就是执行事务的主库的server-uuid值，server-uuid值是在mysql服务首次启动生成的，保存在数据库的数据目录中，在数据目录中有一个auto.conf文件，这个文件保存了server-uuid值（唯一的）。而事务ID则是从1开始自增的序列，表示这个事务是在主库上执行的第几个事务，Mysql会保证这个事务和GTID是一比一的关系。<br>基于GTID的复制是从Mysql5.6开始支持的一种新的复制方式，此方式与传统基于日志的方式存在很大的差异，在原来的基于日志的复制中，从服务器连接到主服务器并告诉主服务器要从哪个二进制日志的偏移量开始执行增量同步，这时我们如果指定的日志偏移量不对，这与可能造成主从数据的不一致，而基于GTID的复制会避免。<br>在基于GTID的复制中，首先从服务器会告诉主服务器已经在从服务器执行完了哪些事务的GTID值，然后主库会有把所有没有在从库上执行的事务，发送到从库上进行执行，并且使用GTID的复制可以保证同一个事务只在指定的从库上执行一次，这样可以避免由于偏移量的问题造成数据不一致。</p>
 <h3 id="2-配置步骤"><a href="#2-配置步骤" class="headerlink" title="2.配置步骤"></a>2.配置步骤</h3><p>我们可以在主从服务器中添加如下的配置来实现:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gtid_mode = on  #打开GTID功能</span><br><span class="line">enforce-gtid-consistency #用户保证启动gtid之后的事务安全</span><br><span class="line">log-slave-updates = on #</span><br></pre></td></tr></table></figure>
 <p>上述的命令直接添加到上一篇基于binlog的配置后面即可。</p>
@@ -430,7 +431,7 @@ height:50vh;
             <p>原文作者：<a href="http://MemoryExplosion.github.io">LSJ</a>
             <p>原文链接：<a href="http://MemoryExplosion.github.io/2019/08/28/从无到有搭建mysql主从结构-GTID版/">http://MemoryExplosion.github.io/2019/08/28/从无到有搭建mysql主从结构-GTID版/</a>
             <p>发表日期：<a href="http://MemoryExplosion.github.io/2019/08/28/从无到有搭建mysql主从结构-GTID版/">August 28th 2019, 11:41:23 pm</a>
-            <p>更新日期：<a href="http://MemoryExplosion.github.io/2019/08/28/从无到有搭建mysql主从结构-GTID版/">August 28th 2019, 11:52:11 pm</a>
+            <p>更新日期：<a href="http://MemoryExplosion.github.io/2019/08/28/从无到有搭建mysql主从结构-GTID版/">August 28th 2019, 11:56:10 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -556,7 +557,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#本篇主要介绍mysql数据库基于GTID的主从配置，希望本篇文章能够给你带来些许收货。"><span class="toc-number">1.</span> <span class="toc-text">本篇主要介绍mysql数据库基于GTID的主从配置，希望本篇文章能够给你带来些许收货。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-项目环境"><span class="toc-number">1.1.</span> <span class="toc-text">1.项目环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-配置步骤"><span class="toc-number">1.2.</span> <span class="toc-text">2.配置步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-存在的不足"><span class="toc-number">1.3.</span> <span class="toc-text">3.存在的不足</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-实验验证"><span class="toc-number">1.3.1.</span> <span class="toc-text">4.实验验证</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-项目环境"><span class="toc-number">1.</span> <span class="toc-text">1.项目环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-配置步骤"><span class="toc-number">2.</span> <span class="toc-text">2.配置步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-存在的不足"><span class="toc-number">3.</span> <span class="toc-text">3.存在的不足</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-实验验证"><span class="toc-number">3.1.</span> <span class="toc-text">4.实验验证</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -569,10 +570,6 @@ top:50vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
     
     
     
@@ -1111,12 +1108,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/14</span><a class="archive-post-title" href= "/2018/02/14/访问者模式/" >访问者模式</a>
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href= "/2018/02/14/解释器模式/" >解释器模式</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/14</span><a class="archive-post-title" href= "/2018/02/14/解释器模式/" >解释器模式</a>
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href= "/2018/02/14/访问者模式/" >访问者模式</a>
         </li>
     
     
@@ -1240,9 +1237,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="GC"><span class="iconfont-archer">&#xe606;</span>GC</span>
     
-        <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
-    
         <span class="sidebar-tag-name" data-tags="cookie,session"><span class="iconfont-archer">&#xe606;</span>cookie,session</span>
+    
+        <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
     
         <span class="sidebar-tag-name" data-tags="docker"><span class="iconfont-archer">&#xe606;</span>docker</span>
     
@@ -1293,9 +1290,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="Java基础"><span class="iconfont-archer">&#xe60a;</span>Java基础</span>
     
-        <span class="sidebar-category-name" data-categories="数据库"><span class="iconfont-archer">&#xe60a;</span>数据库</span>
-    
         <span class="sidebar-category-name" data-categories="web开发"><span class="iconfont-archer">&#xe60a;</span>web开发</span>
+    
+        <span class="sidebar-category-name" data-categories="数据库"><span class="iconfont-archer">&#xe60a;</span>数据库</span>
     
         <span class="sidebar-category-name" data-categories="容器技术"><span class="iconfont-archer">&#xe60a;</span>容器技术</span>
     
