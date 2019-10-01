@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>hexo工作原理 · null</title>
+    <title>springboot2.0整合dubbo · null</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -217,7 +217,7 @@
                 <a href="/" ></a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">hexo工作原理</a>
+                <a href="#" class="post-name">springboot2.0整合dubbo</a>
             </div>
     </div>
     
@@ -247,7 +247,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            hexo工作原理
+            springboot2.0整合dubbo
             <!-- 404 -->
             
         </h1>
@@ -266,14 +266,14 @@ height:50vh;
                 
                     <div class= post-intro-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "hexo">hexo</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "spring">spring</a>
     
 </div>
                 
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2017/12/31</span>
+                    <span class="post-intro-time">2019/10/01</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -397,29 +397,30 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>摘要:<br>转载自:<a href="http://coderunthings.com/2017/08/20/howhexoworks/" target="_blank" rel="noopener">http://coderunthings.com/2017/08/20/howhexoworks/</a><br><a id="more"></a><br>正文:<br><img src="http://coderunthings.com/images/howhexoworks/hexo_logo.png" alt=""><br> 你可能用过hexo(或者jekyll)来搭建自己的博客网站。通常我们在安装、配置完成hexo之后，借助hexo，一般通过以下步骤，就可以完成一篇博客的编写及发布，真是方便极了：</p>
-<p><table><tr><td bgcolor="#F0F8FF"><br>$ hexo init           // 创建一个新的hexo项目<br>$ hexo new mynewblog  // 新建一篇标题为mynewblog的文章<br>$ hexo server         // 为hexo在本地起一个http server, 然后通过浏览器访问博客<br>$ hexo generate       // 生成将要发布的博客网站包含html在内的静态资源<br>$ hexo deploy         // 将generate的结果发布到_config.yml中指定的仓库<br></td></tr></table><br>可是，从hexo init到hexo deploy中间发生了什么呢？为了搞清楚这一过程、理解hexo的工作原理，本文将试着回答以下问题:<br>命令行中的hexo是什么<br>hexo是怎么将我们写好的markdown转换成html的<br>hexo插件是如何工作的<br>本地的hexo项目和git page有什么关系<br>本文不是:</p>
-<p>hexo的安装、使用教程<br>git page的使用教程<br>命令行中的hexo是什么?</p>
-<p>hexo项目在github上已经有超过17k的star了，但是你知道吗，日常我们在命令行”操作”hexo时所输入的hexo(例如hexo init)并不是这个17k个star的项目! 是的，我们在命令行中所输入的”hexo”实际是hexo-cli项目，该项目在github上的star还不足50个。</p>
-<p><table><tr><td bgcolor="#F0F8FF"><br>hexo可以粗略分为三个子项目，分别是:<br>hexo-cli<br>hexo (下文中用hexo core来指代)<br>hexo plugins<br>其中hexo plugins不是指某一个单独的项目，而是泛指所有的hexo plugin项目。<br>请看下图:</td></tr></table></p>
-<p><img src="http://coderunthings.com/images/howhexoworks/hexo_projects.png" alt=""><br>让我们结合这张图来大致看看这三个项目的作用(下面的链接均是指向Github中相关的源码):<br>hexo-cli: hexo命令行项目，作用是:<br>启动hexo命令(进程)，及其参数解析机制。每次我们输入’hexo xxx’命令后，都会通过node调用hexo-cli中的entry函数(比如，可以把’hexo init’视为’node hexo-cli/entry.js init’)<br>实现hexo命令的三个初始参数(功能): init / version / help<br>加载hexo核心模块，并初始化<br>hexo core: hexo核心，他的主要作用如下:<br>实现了hexo功能扩展对象<br>实现了hexo核心功能, 如new, publish, generate等（其实是一些hexo插件，下文中会详细分析）<br>hexo plugins: 指一些能够扩展hexo的插件。插件可以按功能分成两类:<br>扩展hexo命令的参数，如hexo-server(安装这个插件以后才能使用hexo server命令)<br>扩展hexo解析文件的”能力”，如增加jade模版解析功能的hexo-render-jade插件<br><br>从markdown到html的旅程</p>
-<p>简单来说，hexo中，从markdown到html的generate过程中做了两件事：</p>
-<p>模板渲染<br>模板渲染<br>是的，就是这样，就是两次模板渲染。只不过两次渲染的输入、渲染模板的引擎、输出不一样。此处应该有一个表格：<br><img src="http://coderunthings.com/images/howhexoworks/render.png" alt=""><br>还得有一张图:<br><img src="http://coderunthings.com/images/howhexoworks/post.png" alt=""> </p>
-<p><table><tr><td bgcolor="#F0F8FF"><br>对上面表格和图的说明:<br>hexo core在generate的过程中会产生一个对象，我们在这里把这个对象称为article。第一次渲染的主要目的就是给这个对象添加title,content等属性。其中:<br>article.title, article.date, article.tags, article.categories等属性来自yml front的部分<br>article.content是markdown文章解析后的html片段<br>hexo项目目录下包含三个子目录，<br>source目录，写博客的主要工作目录。这个目录下存放的是我们的markdown文章以及js, images, css<br>themes目录，主题目录，定义了即将生成的html的layout, 和html中需要加载的css, js, images<br>public目录, hexo generate的最终输出目录。里面包含了整个博客网站的html, css, js, images<br>第二次渲染，需要引入对应模板文件格式的插件，如.ejs文件就需要使用hexo-render-ejs插件，.jade文件需要使用hexo-render-jade插件，而.sass文件则需要hexo-render-sass插件来转换成css文件。hexo的这一设计有点类似webpack中的loader。<br></td></tr></table><br>hexo插件是如何工作的</p>
-<p>hexo和webpack还有一点类似的地方就是插件驱动理念。即hexo(和webpack)是先实现一套(插件)扩展系统，然后再往扩展系统中添加插件来实现自身的功能。即我们日常使用的hexo init, hexo new，hexo generate等等功能都是通过一个个插件(其实就是一个个function)实现的。</p>
-<p><table><tr><td bgcolor="#F0F8FF"><br>具体来讲就是:<br>hexo.extend这个对象的每个属性都是一个用来绑定(特定)插件的对象。（所谓”绑定”，其实就是对象的register方法）<br>hexo初始化过程中先加载内部插件，再加载外部插件<br>而这些插件的功能分为两大类: 命令行插件和generate过程相关功能，例如：<br>命令行插件, hexo new, 是在hexo.extend.console对象上绑定的一个插件<br>generate过程相关的插件，如上文提到的往article对象添加title,content等属性的功能，是通过往hexo.extend.processer对象上绑定post插件来实现的<br>所以，当我们想自己动手写插件时，就是像hexo官网给出的这样,调用某个对象的register方法，如hexo.extend.console.register。<br></td></tr></table><br>hexo和git page<br><img src="http://coderunthings.com/images/howhexoworks/deploy.png" alt=""><br>如上图，(用户通过浏览器访问到的)git page上的博客网站其实是hexo generate之后生成的public目录下的内容。</p>
-<p><table><tr><td bgcolor="#F0F8FF"><br>所以，一个hexo博客项目应该有两个仓库:<br>(基于hexo init结果的)博客编写仓库。可以把这个项目看成一个代码库，用来”开发”博客网站(包含写博客，生成博客等任务)<br>存放(hexo generate结果的)public目录仓库。这个项目是”只读”的，我们不会直接修改这个仓库的内容，我们也不会对这个仓库直接进行git pull、git commit、git push等常规操作。这个仓库的内容就是public目下的内容，即是通过hexo generate产生、hexo deploy提交的。<br></td></tr></table><br>总结</p>
-<p>hexo简洁、强大的功能来自于自身优雅的系统设计:</p>
-<p>hexo进程启动、hexo核心对象封装、插件系统分别独立<br>自身采用插件驱动，生来就具备高可扩展性<br>希望读完这篇文章你能对hexo本身有更深入的理解，也能通过hexo的代码设计，对自己以后写出更优雅的代码有所启发。</p>
+        <p>摘要:<br>本文主要介绍在springboot2.0环境下集成dubbo的一系列操作，并通过一个简单的demo来实现服务的远程调用。</p>
+<a id="more"></a>
+<p>正文:<br>实验环境:</p>
+<p>首先来看一下项目的目录结构，主要分为3部分:<br>其中api模块给出需要暴露的服务接口、provider模块为服务提供方，而consumer模块为服务的调用方。</p>
+<p><img src="https://raw.githubusercontent.com/MemoryExplosion/picCloud/master/QQ%E6%88%AA%E5%9B%BE20191001124547.png" alt=""></p>
+<p>在API模块中定义一个新闻接口，用于模拟新闻调用:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface INews &#123;</span><br><span class="line">    Object getDailyNews();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在provider模块中对该接口进行了实现:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class NewsImpl implements INews &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Object getDailyNews() &#123;</span><br><span class="line">        var result=&quot;国庆大阅兵&quot;;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里需要添加@Service这一注解，来表明这个类作为dubbo服务的提供者。</p>
+<p>相关的配置如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server.port=8099</span><br><span class="line">dubbo.application.name=dubbo-provider</span><br><span class="line">dubbo.protocol.name =dubbo</span><br><span class="line">dubbo.protocol.port = 8990</span><br><span class="line">dubbo.registry.address = zookeeper://192.168.100.141:2181</span><br></pre></td></tr></table></figure></p>
+<p>，最后是consumer模块，这个模块主要是调用provider提供的服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">public class WeatherInfoController &#123;</span><br><span class="line">    @Reference</span><br><span class="line">    private INews newsImpl;</span><br><span class="line">    @GetMapping(&quot;/dailyInfo&quot;)</span><br><span class="line">    public Object getWeatherInfo()&#123;</span><br><span class="line">        return newsImpl.getDailyNews();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">相关的配置如下:</span><br></pre></td></tr></table></figure>
+<p>server.port=9090<br>dubbo.application.name=dubbo-provider<br>dubbo.protocol.name =dubbo<br>dubbo.protocol.port = 8990<br>dubbo.registry.address = zookeeper://192.168.100.141:2181<br><code>`</code></p>
+<p>随后是实验的结果:<br><img src="https://raw.githubusercontent.com/MemoryExplosion/picCloud/master/QQ%E6%88%AA%E5%9B%BE20191001115014.png" alt=""></p>
+<p>最后给出整个项目的链接：<br><a href="https://gitee.com/littleWhiteJ/dubbo_related.git" title="完整项目" target="_blank" rel="noopener">https://gitee.com/littleWhiteJ/dubbo_related.git</a></p>
 
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
             <p>原文作者：<a href="http://MemoryExplosion.github.io">LSJ</a>
-            <p>原文链接：<a href="http://MemoryExplosion.github.io/2017/12/31/hexo工作原理/">http://MemoryExplosion.github.io/2017/12/31/hexo工作原理/</a>
-            <p>发表日期：<a href="http://MemoryExplosion.github.io/2017/12/31/hexo工作原理/">December 31st 2017, 10:38:09 am</a>
-            <p>更新日期：<a href="http://MemoryExplosion.github.io/2017/12/31/hexo工作原理/">September 16th 2019, 10:54:43 pm</a>
+            <p>原文链接：<a href="http://MemoryExplosion.github.io/2019/10/01/springboot2-0整合dubbo/">http://MemoryExplosion.github.io/2019/10/01/springboot2-0整合dubbo/</a>
+            <p>发表日期：<a href="http://MemoryExplosion.github.io/2019/10/01/springboot2-0整合dubbo/">October 1st 2019, 11:30:20 pm</a>
+            <p>更新日期：<a href="http://MemoryExplosion.github.io/2019/10/01/springboot2-0整合dubbo/">October 1st 2019, 4:25:10 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -427,17 +428,12 @@ height:50vh;
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href= "/2018/01/01/解读redis配置文件/" title= "解读redis配置文件">
-                    <div class="nextTitle">解读redis配置文件</div>
-                </a>
-            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2017/12/30/cookie被浏览器禁用后的解决方法/" title= "cookie被浏览器禁用后的解决方法">
-                    <div class="prevTitle">cookie被浏览器禁用后的解决方法</div>
+                <a href= "/2019/09/08/docker-环境下zookeeper安装/" title= "docker 环境下zookeeper安装">
+                    <div class="prevTitle">docker 环境下zookeeper安装</div>
                 </a>
             
         </li>
