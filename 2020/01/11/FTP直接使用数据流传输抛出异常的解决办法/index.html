@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="LSJ">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="LSJ">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>FTP直接使用数据流传输抛出异常的解决办法 · null</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/faviconMe.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" ></a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">FTP直接使用数据流传输抛出异常的解决办法</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/></a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            FTP直接使用数据流传输抛出异常的解决办法
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "FTP">FTP</a>
+    
+</div>
+                
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/01/11</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script> <div id="security"> <div class="input-container"> <input type="password" class="form-control" id="pass" placeholder=" 请输入密码 " /> <label for="pass"> 请输入密码 </label> <div class="bottom-line"></div> </div> </div> <div id="encrypt-blog" style="display:none"> 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 </div><script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://MemoryExplosion.github.io">LSJ</a>
+            <p>原文链接：<a href="http://MemoryExplosion.github.io/2020/01/11/FTP直接使用数据流传输抛出异常的解决办法/">http://MemoryExplosion.github.io/2020/01/11/FTP直接使用数据流传输抛出异常的解决办法/</a>
+            <p>发表日期：<a href="http://MemoryExplosion.github.io/2020/01/11/FTP直接使用数据流传输抛出异常的解决办法/">January 11th 2020, 8:28:30 pm</a>
+            <p>更新日期：<a href="http://MemoryExplosion.github.io/2020/01/11/FTP直接使用数据流传输抛出异常的解决办法/">January 11th 2020, 8:51:21 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/12/21/在IntelliJ-IDEA中使用条件断点提升开发效率/" title= "在IntelliJ IDEA中使用条件断点提升开发效率">
+                    <div class="prevTitle">在IntelliJ IDEA中使用条件断点提升开发效率</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:1255787514@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/weChat.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+	<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.0.4/lib/L2Dwidget.min.js"></script> <script type="text/javascript"> L2Dwidget.init(); </script>
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 47
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/11</span><a class="archive-post-title" href= "/2020/01/11/FTP直接使用数据流传输抛出异常的解决办法/" >FTP直接使用数据流传输抛出异常的解决办法</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/21</span><a class="archive-post-title" href= "/2019/12/21/在IntelliJ-IDEA中使用条件断点提升开发效率/" >在IntelliJ IDEA中使用条件断点提升开发效率</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/10</span><a class="archive-post-title" href= "/2019/12/10/git相关知识整理/" >git相关知识整理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span><a class="archive-post-title" href= "/2019/12/01/springboot2-2-x下镜像打包步骤/" >springboot2.2.x下镜像打包步骤</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/21</span><a class="archive-post-title" href= "/2019/11/21/有用的guava之ListenableFuture/" >有用的guava之ListenableFuture</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/18</span><a class="archive-post-title" href= "/2019/11/18/有用的guava之缓存简介/" >有用的guava之缓存简介</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/14</span><a class="archive-post-title" href= "/2019/11/14/有用的guava之新集合类型/" >有用的guava之新集合类型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/13</span><a class="archive-post-title" href= "/2019/11/13/有用的guava之不可变集合/" >有用的guava之不可变集合</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/12</span><a class="archive-post-title" href= "/2019/11/12/有用的guava之ComparisionChain类使用/" >有用的guava之ComparisionChain类使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/11</span><a class="archive-post-title" href= "/2019/11/11/docker环境下maven私服部署/" >docker环境下maven私服部署</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/01</span><a class="archive-post-title" href= "/2019/10/01/springboot2-0整合dubbo/" >springboot2.0整合dubbo</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/08</span><a class="archive-post-title" href= "/2019/09/08/docker-环境下zookeeper安装/" >docker 环境下zookeeper安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/28</span><a class="archive-post-title" href= "/2019/08/28/从无到有搭建mysql主从结构-GTID版/" >从无到有搭建mysql主从结构(GTID版)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/25</span><a class="archive-post-title" href= "/2019/08/25/从无到有搭建mysql主从结构-binlog版/" >从无到有搭建mysql主从结构(binlog版)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/21</span><a class="archive-post-title" href= "/2019/07/21/使用mysqldump进行数据库备份/" >使用mysqldump进行数据库备份</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/17</span><a class="archive-post-title" href= "/2019/07/17/centos7下多机集群时间同步设定/" >centos7下多机集群时间同步设定</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/06</span><a class="archive-post-title" href= "/2019/07/06/MySql设计规范总结/" >项目开发中数据库哪些雷区不能踩?</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2018 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span><a class="archive-post-title" href= "/2018/09/16/Java8垃圾回收总结/" >Java8垃圾回收总结</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/29</span><a class="archive-post-title" href= "/2018/04/29/docker使用心得/" >docker使用心得</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/15</span><a class="archive-post-title" href= "/2018/02/15/备忘录模式/" >备忘录模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/15</span><a class="archive-post-title" href= "/2018/02/15/观察者模式/" >观察者模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/15</span><a class="archive-post-title" href= "/2018/02/15/状态模式/" >状态模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href= "/2018/02/14/模板方法模式/" >模板方法模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href= "/2018/02/14/策略模式/" >策略模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href= "/2018/02/14/访问者模式/" >访问者模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href= "/2018/02/14/解释器模式/" >解释器模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href= "/2018/02/14/命令模式/" >命令模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href= "/2018/02/14/中介者模式/" >中介者模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/13</span><a class="archive-post-title" href= "/2018/02/13/迭代器模式/" >迭代器模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/13</span><a class="archive-post-title" href= "/2018/02/13/责任链模式/" >责任链模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/13</span><a class="archive-post-title" href= "/2018/02/13/享元模式/" >享元模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href= "/2018/02/12/外观模式/" >外观模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/12</span><a class="archive-post-title" href= "/2018/02/12/装饰模式/" >装饰模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/11</span><a class="archive-post-title" href= "/2018/02/11/组合模式/" >组合模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/11</span><a class="archive-post-title" href= "/2018/02/11/桥接模式/" >桥接模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/10</span><a class="archive-post-title" href= "/2018/02/10/代理模式/" >代理模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/10</span><a class="archive-post-title" href= "/2018/02/10/适配器模式/" >适配器模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/10</span><a class="archive-post-title" href= "/2018/02/10/建造者模式/" >建造者模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/09</span><a class="archive-post-title" href= "/2018/02/09/工厂模式/" >工厂模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/08</span><a class="archive-post-title" href= "/2018/02/08/单例模式/" >单例模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/07</span><a class="archive-post-title" href= "/2018/02/07/原型模式/" >原型模式</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/14</span><a class="archive-post-title" href= "/2018/01/14/每个极客都应该知道的Linux技巧/" >每个极客都应该知道的Linux技巧</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span><a class="archive-post-title" href= "/2018/01/01/解读redis配置文件/" >解读redis配置文件</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2017 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/31</span><a class="archive-post-title" href= "/2017/12/31/hexo工作原理/" >hexo工作原理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/30</span><a class="archive-post-title" href= "/2017/12/30/cookie被浏览器禁用后的解决方法/" >cookie被浏览器禁用后的解决方法</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/30</span><a class="archive-post-title" href= "/2017/12/30/面经/" >面经</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/29</span><a class="archive-post-title" href= "/2017/12/29/二维数组的查找/" >二维数组的查找</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="FTP"><span class="iconfont-archer">&#xe606;</span>FTP</span>
+    
+        <span class="sidebar-tag-name" data-tags="docker"><span class="iconfont-archer">&#xe606;</span>docker</span>
+    
+        <span class="sidebar-tag-name" data-tags="GC"><span class="iconfont-archer">&#xe606;</span>GC</span>
+    
+        <span class="sidebar-tag-name" data-tags="git"><span class="iconfont-archer">&#xe606;</span>git</span>
+    
+        <span class="sidebar-tag-name" data-tags="MySQL"><span class="iconfont-archer">&#xe606;</span>MySQL</span>
+    
+        <span class="sidebar-tag-name" data-tags="zookeeper"><span class="iconfont-archer">&#xe606;</span>zookeeper</span>
+    
+        <span class="sidebar-tag-name" data-tags="maven"><span class="iconfont-archer">&#xe606;</span>maven</span>
+    
+        <span class="sidebar-tag-name" data-tags="spring"><span class="iconfont-archer">&#xe606;</span>spring</span>
+    
+        <span class="sidebar-tag-name" data-tags="cookie,session"><span class="iconfont-archer">&#xe606;</span>cookie,session</span>
+    
+        <span class="sidebar-tag-name" data-tags="算法,面试题"><span class="iconfont-archer">&#xe606;</span>算法,面试题</span>
+    
+        <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="设计模式"><span class="iconfont-archer">&#xe606;</span>设计模式</span>
+    
+        <span class="sidebar-tag-name" data-tags="guava"><span class="iconfont-archer">&#xe606;</span>guava</span>
+    
+        <span class="sidebar-tag-name" data-tags="IntelliJ IDEA"><span class="iconfont-archer">&#xe606;</span>IntelliJ IDEA</span>
+    
+        <span class="sidebar-tag-name" data-tags="非关系型数据库"><span class="iconfont-archer">&#xe606;</span>非关系型数据库</span>
+    
+        <span class="sidebar-tag-name" data-tags="linux,geek"><span class="iconfont-archer">&#xe606;</span>linux,geek</span>
+    
+        <span class="sidebar-tag-name" data-tags="面经,面试题"><span class="iconfont-archer">&#xe606;</span>面经,面试题</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="FTP"><span class="iconfont-archer">&#xe60a;</span>FTP</span>
+    
+        <span class="sidebar-category-name" data-categories="容器技术"><span class="iconfont-archer">&#xe60a;</span>容器技术</span>
+    
+        <span class="sidebar-category-name" data-categories="Java基础"><span class="iconfont-archer">&#xe60a;</span>Java基础</span>
+    
+        <span class="sidebar-category-name" data-categories="git"><span class="iconfont-archer">&#xe60a;</span>git</span>
+    
+        <span class="sidebar-category-name" data-categories="数据库"><span class="iconfont-archer">&#xe60a;</span>数据库</span>
+    
+        <span class="sidebar-category-name" data-categories="zookeeper"><span class="iconfont-archer">&#xe60a;</span>zookeeper</span>
+    
+        <span class="sidebar-category-name" data-categories="maven"><span class="iconfont-archer">&#xe60a;</span>maven</span>
+    
+        <span class="sidebar-category-name" data-categories="spring"><span class="iconfont-archer">&#xe60a;</span>spring</span>
+    
+        <span class="sidebar-category-name" data-categories="web开发"><span class="iconfont-archer">&#xe60a;</span>web开发</span>
+    
+        <span class="sidebar-category-name" data-categories="基础算法题"><span class="iconfont-archer">&#xe60a;</span>基础算法题</span>
+    
+        <span class="sidebar-category-name" data-categories="hexo"><span class="iconfont-archer">&#xe60a;</span>hexo</span>
+    
+        <span class="sidebar-category-name" data-categories="设计模式"><span class="iconfont-archer">&#xe60a;</span>设计模式</span>
+    
+        <span class="sidebar-category-name" data-categories="guava"><span class="iconfont-archer">&#xe60a;</span>guava</span>
+    
+        <span class="sidebar-category-name" data-categories="IntelliJ-IDEA"><span class="iconfont-archer">&#xe60a;</span>IntelliJ-IDEA</span>
+    
+        <span class="sidebar-category-name" data-categories="redis"><span class="iconfont-archer">&#xe60a;</span>redis</span>
+    
+        <span class="sidebar-category-name" data-categories="linux"><span class="iconfont-archer">&#xe60a;</span>linux</span>
+    
+        <span class="sidebar-category-name" data-categories="面试经验"><span class="iconfont-archer">&#xe60a;</span>面试经验</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "LSJ"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
